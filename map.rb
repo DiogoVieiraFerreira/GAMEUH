@@ -6,7 +6,7 @@ class Tiles
 end
 
 class Map
-    attr_reader :width, :height
+    attr_reader :width, :height, :player_location, :tiles
     def initialize filename
         @tileset = Gosu::Image.load_tiles('media/tileset2.png', 60, 60, tileable: true)
         lines = File.readlines(filename).map { |line| line.chomp }
@@ -22,6 +22,9 @@ class Map
                         Tiles::DIRTGRASS
                     when '#'
                         Tiles::DIRT
+                    when 'P'
+                        @player_location = Vector2.new y, x
+                        nil
                     else
                         nil
                 end
@@ -37,9 +40,12 @@ class Map
             end
         end
     end
-    
     # Solid at a given pixel position?
     def solid?(x, y)
-        y < 0 || @tiles[x / 50][y / 50]
+        if @tiles[x/50][y/50]
+            true
+        else
+            false
+        end
     end
 end
