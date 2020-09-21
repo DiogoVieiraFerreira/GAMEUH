@@ -2,6 +2,7 @@ class Player
     attr_reader :position, :width, :height
 
     def initialize (map:)
+        @offset = 2
         @width = @height = 40
         @vy = 0
         @map = map
@@ -34,9 +35,23 @@ class Player
         end
     end
     def can_move?(x, y)
-        a = (!@map.solid?(@position.x + x, @position.y + y) && !@map.solid?(@position.x + @width + x , @position.y + y + height))
-        pp [@map.solid?(@position.x + x, @position.y + y), @map.solid?(@position.x + @width + x , @position.y + y + height), a]
-        a
+        available=false
+        case @direction
+            when :right
+                available ||= @map.collapse?(@position.x + x + @width, @position.y + y)
+                available ||= @map.collapse?(@position.x + x + @width, @position.y + y + height)
+            when :left
+                available ||= @map.collapse?(@position.x-x-@offset, @position.y + y)
+                available ||= @map.collapse?(@position.x-x-@offset, @position.y + y + height)
+            when :down
+                available ||= @map.collapse?(@position.x, @position.y - y + @height + @offset)
+                available ||= @map.collapse?(@position.x + @width, @position.y - y + @height + @offset)
+            when :up
+                available ||= @map.collapse?(@position.x, @position.y + y - @offset)
+                available ||= @map.collapse?(@position.x + @width, @position.y + y - @offset)
+        end
+        
+        !available
     end
     def update
         move

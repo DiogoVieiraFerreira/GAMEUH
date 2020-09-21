@@ -41,7 +41,7 @@ class Map
         end
     end
     # Solid at a given pixel position?
-    def solid?(x, y)
+    def collapse?(x, y)
         if @tiles[x/50][y/50]
             true
         else

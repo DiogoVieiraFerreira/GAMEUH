@@ -11,8 +11,8 @@ class Gameuh < Gosu::Window
         
         @camera_x = @camera_y = 0
         @player = Player.new(map: @map)
-        # @player = Player.new(position: @map.player_location)
 
+        @font = Gosu::Font.new(self, Gosu::default_font_name, 20)
     end
     
     def update
@@ -27,6 +27,7 @@ class Gameuh < Gosu::Window
         Gosu.translate(-@camera_x, -@camera_y) do
             @map.draw
             draw_rect(@player.position.x, @player.position.y, @player.width, @player.height, Gosu::Color.new(255,0,0))
+            @font.draw_text(Gosu.fps, @camera_x, @camera_y, 1, 1, 1, Gosu::Color::WHITE)
         end
     end
 
