@@ -1,4 +1,4 @@
-
+require_relative 'vector2'
 class Tiles
     GRASS = 0
     DIRT = 1
@@ -6,11 +6,11 @@ class Tiles
 end
 
 class Map
-    attr_reader :width, :height, :player_location, :tiles
+    attr_reader :width, :height, :player_location, :tiles, :ennemies_positions
     def initialize filename
         @tileset = Gosu::Image.load_tiles('media/tileset2.png', 60, 60, tileable: true)
         lines = File.readlines(filename).map { |line| line.chomp }
-
+        @ennemies_positions = []
         @height = lines.size
         @width = lines.first.size
         @tiles = Array.new(@width) do |x|
@@ -22,8 +22,11 @@ class Map
                         Tiles::DIRTGRASS
                     when '#'
                         Tiles::DIRT
+                    when 'E'
+                        @ennemies_positions.push Vector2.new x, y
+                        nil
                     when 'P'
-                        @player_location = Vector2.new y, x
+                        @player_location = Vector2.new x, y
                         nil
                     else
                         nil
