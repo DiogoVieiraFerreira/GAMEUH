@@ -1,13 +1,13 @@
+require_relative "vector2"
 class Player
     attr_reader :position, :width, :height
 
-    def initialize (map:)
+    def initialize (map)
         @offset = 2
         @width = @height = 40
         @vy = 0
         @map = map
-        map.player_location*50
-        @position = map.player_location
+        @position = map.player_location*50
         raise Exception.new("Player without position...") unless @position.x && @position.y
     end
 
