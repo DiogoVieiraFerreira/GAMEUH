@@ -9,7 +9,7 @@ class Ennemy
         @map = map
         @position = position*50       
 
-        @move = :left
+        # @move = :left
         raise Exception.new("position not found...") unless @position.x && @position.y
     end
 
